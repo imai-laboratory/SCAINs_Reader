@@ -7,9 +7,7 @@ import logging
 import extractor
 
 from importlib.machinery import OPTIMIZED_BYTECODE_SUFFIXES
-from flask import Flask, render_template, request, flash
-
-app = Flask(__name__)
+from natsort import natsorted
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',
                     datefmt = '%m/%d/%Y %H:%M:%S',
@@ -31,7 +29,7 @@ class Params:
     TEMPERATURE = 0
     STOP_WORDS = "\n"
     USE_DUMMY = 0
-    RESULTS_PATH = "./results/generations/important/"
+    RESULTS_PATH = "./results/"
 
     def setFileName(self, filename):
         type(self).FILENAME = filename
@@ -40,14 +38,18 @@ class Params:
         print(type(self).FILEPATH)
 
 if __name__ == "__main__":
+    start = time.time()
     params = Params()
 
     # Encoder
     encoding = tiktoken.encoding_for_model(params.GPT_MODEL_COMPLETION)
 
     # Get list of dialogues
-    file_list = os.listdir(params.DIALOGUE_PATH)
+    file_list = natsorted(os.listdir(params.DIALOGUE_PATH))
+    # file_list = os.listdir(params.DIALOGUE_PATH)
+    # logger.debug(file_list)
     file_list = [f for f in file_list if f.startswith(params.DIALOGUE_FILENAME)]
+    # logger.debug(file_list)
     file_list = file_list[params.DIALOGUE_START:params.DIALOGUE_END]
     logger.debug(file_list)
 
@@ -61,14 +63,15 @@ if __name__ == "__main__":
 
         ex = extractor.SCAINExtractor(params, encoding, dialogue, filename)
         #ex = extractor.ImportantExtractor(params, encoding, dialogue, filename)
-        n_token = ex.extract()
+        # n_token = ex.extract()
+        n_token = ex.distance_extract()
         logger.info("------ number of tokens: {}".format(n_token))
         n_tokens.append(n_token)
         results.extend(ex.results)
 
         # Wait to avoid overloading
         time.sleep(3)
-        
+
         # Save results for each dialogue
         dt_now = datetime.datetime.now()
         results_filename = params.RESULTS_PATH + dt_now.strftime("%Y%m%d_%H%M%S") + ".csv"
@@ -76,4 +79,7 @@ if __name__ == "__main__":
             writer = csv.writer(f)
             writer.writerows(ex.results)
 
-    logger.info("------ number of total tokens: {}".format(sum(n_tokens)))
+        logger.info("------ number of total tokens: {}".format(sum(n_tokens)))
+    end = time.time()
+    time_diff = end - start  # 処理完了後の時刻から処理開始前の時刻を減算する
+    print(time_diff)
