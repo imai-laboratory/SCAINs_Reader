@@ -80,20 +80,6 @@
             tmp[i].setAttribute("id","detail"+i);
             console.log(tmp[i]);
         }
-
-        var resA = {{ resultA | tojson | safe}};
-        var resB = {{ resultB | tojson | safe}};
-        function Check(ele){
-            var tmp = document.getElementsByClassName("detail") ;
-            for (var i=1; i<=tmp.length; i++){
-                if ((ele.id == ('detail'+(i-1))) && resA != "" && resB != ""){
-                    const textA = document.getElementById('outputA');
-                    const textB = document.getElementById('outputB');
-                    textA.innerHTML = '<p style="margin-left:20px;">'+'Aの'+i+'文目の解釈：'+ resA[i-1] +'</p>';
-                    textB.innerHTML = '<p style="margin-left:20px;">'+'Bの'+i+'文目の解釈：'+ resB[i-1] +'</p>';
-                }
-            }
-        }
     </script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-# SCAIN extraction and analysis
+# SCAIN Reader and analysis
 
 ## Intsallation
 Install the packages via the following command: 
@@ -19,12 +19,11 @@ Set your OpenAI API key as the environment variable:
 $ export OPENAI_API_KEY=<your OpenAI API key>
 ```
 
-## Extraction
-Extract SCAINs via the following command:
+## Open Page
+Open SCAINs_Reader's web page via the following command:
 ```shell
-$ pipenv run extraction
+$ pipenv run main
 ```
-Set values of `DIALOGUE_START` and `DIALOGUE_END` properly to avoid model overload.
 
 ## Analysis
 Run `analysis_extraction.ipynb` and `analysis_survey.ipynb` to analyze the results.

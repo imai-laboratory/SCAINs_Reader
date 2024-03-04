@@ -16,6 +16,7 @@ scipy = "*"
 statsmodels = "*"
 pingouin = "*"
 flask = "*"
+natsort = "*"
 
 [dev-packages]
 ipykernel = "*"
@@ -28,3 +29,4 @@ extraction = "python ./src/extraction.py"
 setup = "python ./src/setup.py"
 assistant = "python ./src/assistant.py"
 topic = "python ./src/extraction_topic.py"
+main = "python ./src/main.py"
