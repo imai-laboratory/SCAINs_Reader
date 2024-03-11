@@ -8,8 +8,7 @@ import extractor
 
 from importlib.machinery import OPTIMIZED_BYTECODE_SUFFIXES
 from natsort import natsorted
-from flask import Flask
-from flask import render_template
+from flask import Flask, render_template, redirect, url_for, request
 
 app = Flask(__name__)
 
@@ -35,15 +34,43 @@ class Params:
     USE_DUMMY = 0
     RESULTS_PATH = "./results/"
 
-    def setFileName(self, filename):
-        type(self).FILENAME = filename
-        type(self).FILEPATH = type(self).DIALOGUE_PATH + type(self).FILENAME
-        print(type(self).FILENAME)
-        print(type(self).FILEPATH)
+dialogue = []
+filename = ""
+flag = 1
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    global dialogue, filename, flag
+    if flag:
+        filename = Params().FILENAME  # 初回のリクエスト時にファイル名をセッションに保存
+        dialogue = read_file(filename)
+        flag = 0
+    return render_template("index.html", filename=filename, dialogue=dialogue)
+
+@app.route("/select-txt", methods=['POST'])
+def select_text():
+    global dialogue, filename
+    if request.method == 'POST':
+        selected_filename = request.form['filename']
+        if selected_filename != "unselected":
+            dialogue = read_file(selected_filename)  # ファイルの内容を読み取る
+            filename = selected_filename
+#         return render_template("index.html", filename=filename, dialogue=dialogue)
+        return redirect(url_for('index'))
+    else:
+        return "Method not allowed"
+
+def read_file(filename):
+    with open(Params().DIALOGUE_PATH + filename) as f:
+        lines = [s.rstrip() for s in f.readlines()]
+    dialogue = []
+    for line in lines:
+        parts = line.strip().split(':', 1)
+        if len(parts) == 2:
+            speaker = parts[0].strip() + ":"
+            statement = parts[1].strip()
+            dialogue.append({"speaker": speaker, "statement": statement})
+    return dialogue
 
 if __name__ == '__main__':
     app.run(debug=True)

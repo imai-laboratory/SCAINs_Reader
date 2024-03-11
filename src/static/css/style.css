@@ -37,13 +37,16 @@ button {
     margin: 0 auto;
 }
 
-th,td {
-    border: solid 1px;
-    padding: 10px 15px;
+td {
+    padding: 15px;
     font-size: 20px;
+    cursor: pointer;
 }
 
 table {
+    display: flex;
+    width: 80%;
+    border: solid 1px;
     text-align: center;
     margin: 30px auto;
     border-collapse:  collapse;
@@ -67,7 +70,7 @@ table {
 .done {
     background-color: rgb(119, 240, 119);
     border-color: green;
-    
+
 }
 
 .set{
