@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" href="../../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/style.css">
     <title>Mutual understanding</title>
 </head>
 <body>
@@ -20,15 +20,45 @@
         </form>
     </div>
     <h2 style="padding-left: 100px">会話文をクリックしてください</h2>
-    <table>
+    <table id="dialogueTable">
         {% for line in dialogue %}
-        <tr>
+        <tr onclick="onRowClick({{ loop.index0 }});">
             <td valign="top">{{ line['speaker'] }}</td>
             <td align="left">{{ line['statement'] }}</td>
         </tr>
         {% endfor %}
     </table>
     <script>
+        var scainsRaws = [];
+
+        function updateTableBackground(selectedRow) {
+            var table = document.getElementById('dialogueTable');
+            var rows = table.rows;
+
+            // 全ての行に対してデフォルトの背景色を設定
+            for (var i = 0; i < rows.length; i++) {
+                rows[i].style.backgroundColor = '';
+            }
+
+            // scainsRaws配列に含まれる行の背景色を変更
+            scainsRaws.forEach(function(index) {
+                if (index >= 0 && index < rows.length) {
+                    rows[index].style.backgroundColor = 'yellow'; // この色は変更可能
+                }
+                rows[selectedRow].style.backgroundColor = 'red';
+            });
+        }
+
+        function onRowClick(selectedRow) {
+            // ToDo:SCAINs計算の結果を入れる
+            // 選択された行の1行前と2行前をscainsRawsに追加
+            scainsRaws = [selectedRow - 2, selectedRow - 1];
+
+            // ハイライトする行が有効な範囲にあるか確認し、無効な場合は配列から削除
+            scainsRaws = scainsRaws.filter(index => index >= 0);
+
+            updateTableBackground(selectedRow);
+        }
     </script>
 </body>
 </html>

@@ -37,10 +37,18 @@ button {
     margin: 0 auto;
 }
 
-td {
+tr td {
     padding: 15px;
     font-size: 20px;
     cursor: pointer;
+}
+
+tr:hover{
+    background-color: antiquewhite;
+}
+
+tr:active{
+    background-color: antiquewhite;
 }
 
 table {
