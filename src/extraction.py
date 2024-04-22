@@ -23,8 +23,8 @@ class Params:
     FILENAME = "PP1.txt"
     FILEPATH = DIALOGUE_PATH + FILENAME
     SPEAKERS = ["A: ", "B: "]
-    DIALOGUE_START = 0
-    DIALOGUE_END = 1
+    DIALOGUE_START = 1
+    DIALOGUE_END = 2
     MAX_TOKENS = 200
     TEMPERATURE = 0
     STOP_WORDS = "\n"
