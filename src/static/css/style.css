@@ -115,3 +115,34 @@ thead {
     margin-left: 20px;
     border: 2px solid rgb(52, 52, 175);
 }
+
+.balloon-top {
+    display: none;
+    position: absolute;
+    margin: 1.5em 0;
+    padding: 7px 10px;
+    min-width: 200px;
+    max-width: 100%;
+    color: #555;
+    font-size: 16px;
+    background: #e0edff;
+}
+
+.balloon-top:before {
+    content: "";
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    margin-left: -15px;
+    border: 15px solid transparent;
+    border-bottom: 15px solid #e0edff;
+}
+
+.balloon-top p {
+    display: flex;
+    margin: 0;
+    padding: 0;
+    height: 48px;
+    justify-content: center;
+    align-items: center;
+}

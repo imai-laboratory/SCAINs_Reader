@@ -28,6 +28,9 @@
         </tr>
         {% endfor %}
     </table>
+    <div class="balloon-top">
+        <p>こんにちは。これは例です。こんにちは。これは例です。</p>
+    </div>
     <script>
         var scainsRaws = [];
 
@@ -59,6 +62,21 @@
 
             updateTableBackground(selectedRow);
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var trs = document.querySelectorAll("tr");
+            var tooltip = document.querySelector(".balloon-top");
+
+            trs.forEach(function (tr) {
+                tr.addEventListener("click", function (event) {
+                    var rect = tr.getBoundingClientRect();
+                    var scrollY = window.scrollY || window.pageYOffset;
+                    tooltip.style.top = rect.bottom + scrollY + "px";
+                    tooltip.style.left = (rect.left + rect.right) / 2 + "px";
+                    tooltip.style.display = "inline-block";
+                });
+            });
+        });
     </script>
 </body>
 </html>
